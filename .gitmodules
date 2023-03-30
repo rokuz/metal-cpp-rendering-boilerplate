@@ -1,0 +1,9 @@
+[submodule "3party/glfw"]
+	path = 3party/glfw
+	url = https://github.com/glfw/glfw
+[submodule "3party/glm"]
+	path = 3party/glm
+	url = https://github.com/g-truc/glm
+[submodule "3party/cxxopts"]
+	path = 3party/cxxopts
+	url = https://github.com/jarro2783/cxxopts
