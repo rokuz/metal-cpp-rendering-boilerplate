@@ -13,7 +13,8 @@ Compatibility:
 
 # How to use:
 1. Add `metal-cpp-rendering-boilerplate` as submodule. E.g. `git submodule add https://github.com/rokuz/metal-cpp-rendering-boilerplate 3party/metal-cpp-rendering-boilerplate`
-2. Use the following template in your CMake
+2. `git submodule update --init --recursive`
+3. Use the following template in your CMake
 ```
 cmake_minimum_required(VERSION 3.21)
 
