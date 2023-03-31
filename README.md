@@ -1,4 +1,4 @@
-## Metal-cpp Rendering Boilerplate
+# Metal-cpp Rendering Boilerplate
 
 It contains:
 - MacOS window (based on [GLFW library](https://github.com/glfw/glfw));
@@ -12,7 +12,7 @@ Compatibility:
 - MacOS 13+
 - C++ 20
 
-# How to use:
+## How to use:
 1. Add `metal-cpp-rendering-boilerplate` as submodule. E.g. `git submodule add https://github.com/rokuz/metal-cpp-rendering-boilerplate 3party/metal-cpp-rendering-boilerplate`
 2. `git submodule update --init --recursive`
 3. Use the following template in your CMake
