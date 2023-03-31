@@ -29,10 +29,9 @@ void main_thread::dispatch(std::function<void()> f) {
 
 class worker_thread_impl {
 public:
-  worker_thread_impl(std::string const &threadName) {
-    m_dispatchQueue =
-        dispatch_queue_create(threadName.empty() ? nullptr : threadName.c_str(),
-                              DISPATCH_QUEUE_CONCURRENT);
+  worker_thread_impl(std::string const & threadName) {
+    m_dispatchQueue = dispatch_queue_create(threadName.empty() ? nullptr : threadName.c_str(),
+                                            DISPATCH_QUEUE_CONCURRENT);
   }
 
   void dispatch(std::function<void()> f) {
@@ -45,11 +44,9 @@ private:
   dispatch_queue_t m_dispatchQueue;
 };
 
-worker_thread::worker_thread(std::string const &threadName /* = "" */)
-    : m_impl(std::make_unique<worker_thread_impl>(threadName)) {}
+worker_thread::worker_thread(std::string const & threadName /* = "" */)
+  : m_impl(std::make_unique<worker_thread_impl>(threadName)) {}
 
 worker_thread::~worker_thread() = default;
 
-void worker_thread::dispatch(std::function<void()> f) {
-  m_impl->dispatch(std::move(f));
-}
+void worker_thread::dispatch(std::function<void()> f) { m_impl->dispatch(std::move(f)); }

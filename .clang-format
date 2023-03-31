@@ -1,0 +1,41 @@
+﻿---
+BasedOnStyle: Google
+ColumnLimit: '100'
+IndentWidth: '2'
+
+---
+Language: Cpp
+AccessModifierOffset: '-2'
+ConstructorInitializerIndentWidth: '2'
+ContinuationIndentWidth: '2'
+Cpp11BracedListStyle: 'true'
+DerivePointerAlignment: 'false'
+IncludeBlocks: Regroup
+PointerAlignment: Middle
+SortIncludes: 'true'
+SortUsingDeclarations: 'true'
+UseTab: Never
+BinPackParameters: 'false'
+AllowAllParametersOfDeclarationOnNextLine: 'false'
+BinPackArguments: 'false'
+AllowAllArgumentsOnNextLine: 'false'
+IndentCaseLabels: 'false'
+
+---
+Language: ObjC
+AccessModifierOffset: '-2'
+ConstructorInitializerIndentWidth: '2'
+ContinuationIndentWidth: '2'
+Cpp11BracedListStyle: 'true'
+DerivePointerAlignment: 'false'
+IncludeBlocks: Regroup
+PointerAlignment: Middle
+SortIncludes: 'true'
+SortUsingDeclarations: 'true'
+UseTab: Never
+BinPackParameters: 'false'
+AllowAllParametersOfDeclarationOnNextLine: 'false'
+BinPackArguments: 'false'
+AllowAllArgumentsOnNextLine: 'false'
+IndentCaseLabels: 'false'
+

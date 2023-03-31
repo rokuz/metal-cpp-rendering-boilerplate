@@ -23,8 +23,8 @@ class semaphore {
 public:
   explicit semaphore(uint32_t max_value);
   ~semaphore();
-  void signal();
-  void wait();
+  void signal() const;
+  void wait() const;
   uint32_t max() const { return m_max; }
 
 private:

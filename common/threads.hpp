@@ -27,7 +27,7 @@ class worker_thread_impl;
 
 class worker_thread {
 public:
-  explicit worker_thread(std::string const &threadName = "");
+  explicit worker_thread(std::string const & threadName = "");
   ~worker_thread();
   void dispatch(std::function<void()> f);
 

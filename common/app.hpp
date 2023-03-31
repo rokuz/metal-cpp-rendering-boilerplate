@@ -14,31 +14,46 @@
 
 #pragma once
 
+#include <imgui.h>
+
 #include <Metal/Metal.hpp>
 #include <QuartzCore/CAMetalDrawable.hpp>
 #include <cstdint>
 #include <functional>
 
+#include "glm_math.hpp"
+
 class App {
 public:
   virtual ~App() = default;
 
-  virtual char const *const getName() const {
-    static char const *const kName = "Metal 3 Demo";
+  [[nodiscard]] virtual char const * const getName() const {
+    static char const * const kName = "Metal 3 Demo";
     return kName;
   }
 
-  virtual bool onInitialize(MTL::Device *device, uint32_t screenWidth,
-                            uint32_t screenHeight) = 0;
-  virtual void onDeinitialize() = 0;
-  virtual void onMainLoopTick(CA::MetalDrawable *drawable,
-                              double elapsedSeconds) {}
-  virtual void onResize(uint32_t screenWidth, uint32_t screenHeight) {}
+  [[nodiscard]] virtual bool onInitialize(MTL::Device * const device,
+                                          MTL::CommandQueue * const commandQueue,
+                                          uint32_t screenWidth,
+                                          uint32_t screenHeight) = 0;
 
-  virtual void onKeyButton(int key, int scancode, bool pressed) {}
-  virtual void onMouseButton(double xpos, double ypos, int button,
-                             bool pressed) {}
-  virtual void onMouseMove(double xpos, double ypos) {}
+  virtual void onDeinitialize() = 0;
+
+  virtual void renderFrame(MTL::CommandBuffer * frameCommandBuffer,
+                           MTL::Texture * outputTexture,
+                           double elapsedSeconds) {}
+
+  virtual void onResize(uint32_t screenWidth, uint32_t screenHeight) {}
 };
 
+namespace app {
 extern void closeApp();
+extern void setEnabledVSync(bool enabled);
+extern bool isEnabledVSync();
+
+using ImGuiBuilder = std::function<void(ImGuiIO &)>;
+extern void renderImGui(MTL::CommandBuffer * frameCommandBuffer,
+                        MTL::RenderPassDescriptor * rpDescriptor,
+                        MTL::RenderCommandEncoder * encoder,
+                        ImGuiBuilder && builder);
+}  // namespace app

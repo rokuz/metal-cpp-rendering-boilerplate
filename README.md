@@ -2,6 +2,7 @@
 
 It contains:
 - MacOS window (based on [GLFW library](https://github.com/glfw/glfw));
+- UI integration powered by [Dear ImGui](https://github.com/ocornut/imgui);
 - cpp wrappers for OS-level components (semaphores, dispatch);
 - metal-cpp initialization and lifecycle management;
 - cmake helpers and utilities;
@@ -9,7 +10,7 @@ It contains:
 
 Compatibility:
 - MacOS 13+
-- C++ 17
+- C++ 20
 
 # How to use:
 1. Add `metal-cpp-rendering-boilerplate` as submodule. E.g. `git submodule add https://github.com/rokuz/metal-cpp-rendering-boilerplate 3party/metal-cpp-rendering-boilerplate`

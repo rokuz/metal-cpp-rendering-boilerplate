@@ -26,19 +26,19 @@ public:
     m_semaphore = dispatch_semaphore_create(max_value);
   }
 
-  void signal() { dispatch_semaphore_signal(m_semaphore); }
+  void signal() const { dispatch_semaphore_signal(m_semaphore); }
 
-  void wait() { dispatch_semaphore_wait(m_semaphore, DISPATCH_TIME_FOREVER); }
+  void wait() const { dispatch_semaphore_wait(m_semaphore, DISPATCH_TIME_FOREVER); }
 
 private:
   dispatch_semaphore_t m_semaphore;
 };
 
 semaphore::semaphore(uint32_t max_value)
-    : m_impl(std::make_unique<semaphore_impl>(max_value)), m_max(max_value) {}
+  : m_impl(std::make_unique<semaphore_impl>(max_value)), m_max(max_value) {}
 
 semaphore::~semaphore() = default;
 
-void semaphore::signal() { m_impl->signal(); }
+void semaphore::signal() const { m_impl->signal(); }
 
-void semaphore::wait() { m_impl->wait(); }
+void semaphore::wait() const { m_impl->wait(); }

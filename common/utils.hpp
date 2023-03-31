@@ -16,21 +16,23 @@
 
 #include <simd/simd.h>
 
+#include <Metal/Metal.hpp>
+#include <array>
 #include <cstdint>
 #include <iostream>
 #include <vector>
 
 // RAII for releasing metal-cpp objects.
-template <class T> class metal_guard {
+template <class T>
+class metal_guard {
 public:
-  explicit metal_guard(T *val) : m_value(val) {}
+  explicit metal_guard(T * val) : m_value(val) {}
   ~metal_guard() {
-    if (m_value)
-      m_value->release();
+    if (m_value) m_value->release();
   }
 
 private:
-  T *m_value = nullptr;
+  T * m_value = nullptr;
 };
 
 #define METAL_GUARD(value) metal_guard guard_##value(value);
@@ -42,23 +44,29 @@ private:
 #define C_STR(str) str->utf8String()
 
 // Boilerplate: check NS::Error and return.
-#define CHECK_AND_RETURN(error, returnVal)                                     \
-  if (error) {                                                                 \
-    std::cerr << "Error: " << error->localizedDescription()->utf8String()      \
-              << std::endl;                                                    \
-    error->release();                                                          \
-    return returnVal;                                                          \
+#define CHECK_AND_RETURN(error, returnVal)                                              \
+  if (error) {                                                                          \
+    std::cerr << "Error: " << error->localizedDescription()->utf8String() << std::endl; \
+    error->release();                                                                   \
+    return returnVal;                                                                   \
+  }
+
+// Assert definition.
+#define METAL_ASSERT(condition)                         \
+  if (!(condition)) {                                   \
+    std::cerr << "Assert: " << #condition << std::endl; \
+    assert(condition);                                  \
   }
 
 // Vector helpers.
-inline packed_float2 make_packed_float2(glm::vec2 const &v) {
+inline packed_float2 make_packed_float2(glm::vec2 const & v) {
   packed_float2 out;
   out.x = v.x;
   out.y = v.y;
   return out;
 }
 
-inline packed_float4 make_packed_float4(glm::vec4 const &v) {
+inline packed_float4 make_packed_float4(glm::vec4 const & v) {
   packed_float4 out;
   out.x = v.x;
   out.y = v.y;
@@ -74,9 +82,40 @@ inline uint32_t getAligned(uint32_t bytes, uint32_t alignment) {
 }
 
 // Combines hashes.
+// Based on:
 // https://github.com/boostorg/container_hash/blob/develop/include/boost/container_hash/hash.hpp
-template <class T> inline void hashCombine(std::size_t &seed, T const &v) {
-  std::hash<T> hasher;
-  seed ^= hasher(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+inline void hashCombine(std::size_t & seed) {}
+
+template <typename Arg, typename... Args>
+inline void hashCombine(std::size_t & seed, Arg const & first, Args const &... rest) {
+  std::hash<Arg> hasher;
+  seed ^= hasher(first) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+  hashCombine(seed, rest...);
 }
-} // namespace utils
+
+// Returns GPU Family from Metal device.
+inline std::string getMetalGpuFamily(MTL::Device * const device) {
+  static std::array families{
+    std::pair{MTL::GPUFamilyMetal3, "Metal 3"},
+    std::pair{MTL::GPUFamilyMacCatalyst2, "Mac Catalyst 2"},
+    std::pair{MTL::GPUFamilyMacCatalyst1, "Mac Catalyst 1"},
+    std::pair{MTL::GPUFamilyCommon3, "Common 3"},
+    std::pair{MTL::GPUFamilyCommon2, "Common 2"},
+    std::pair{MTL::GPUFamilyCommon1, "Common 1"},
+    std::pair{MTL::GPUFamilyMac2, "Mac 2"},
+    std::pair{MTL::GPUFamilyMac1, "Mac 1"},
+    std::pair{MTL::GPUFamilyApple8, "Apple 8"},
+    std::pair{MTL::GPUFamilyApple7, "Apple 7"},
+    std::pair{MTL::GPUFamilyApple6, "Apple 6"},
+    std::pair{MTL::GPUFamilyApple5, "Apple 5"},
+    std::pair{MTL::GPUFamilyApple4, "Apple 4"},
+    std::pair{MTL::GPUFamilyApple3, "Apple 3"},
+    std::pair{MTL::GPUFamilyApple2, "Apple 2"},
+    std::pair{MTL::GPUFamilyApple1, "Apple 1"},
+  };
+  for (auto & [family, name] : families) {
+    if (device->supportsFamily(family)) return name;
+  }
+  return "";
+}
+}  // namespace utils

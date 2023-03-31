@@ -7,3 +7,6 @@
 [submodule "3party/cxxopts"]
 	path = 3party/cxxopts
 	url = https://github.com/jarro2783/cxxopts
+[submodule "3party/imgui/lib"]
+	path = 3party/imgui/lib
+	url = https://github.com/ocornut/imgui.git

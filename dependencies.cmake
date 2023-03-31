@@ -12,7 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set(PLATFORM_MAC TRUE)
@@ -104,14 +106,18 @@ function(include_metal_cpp_rendering_boilerplate path_to_boilerplate)
   include_directories(${path_to_boilerplate})
   include_directories(${PROJECT_BINARY_DIR})
   include_directories(${path_to_boilerplate}/3party/cxxopts/include)
+  include_directories(${path_to_boilerplate}/3party/imgui/lib)
   include_directories(${path_to_boilerplate}/3party/glfw/include)
   include_directories(${path_to_boilerplate}/3party/glm)
   include_directories(${path_to_boilerplate}/3party/metal-cpp)
 
   add_subdirectory(${path_to_boilerplate}/3party/glfw)
   add_subdirectory(${path_to_boilerplate}/3party/glm)
+  add_subdirectory(${path_to_boilerplate}/3party/imgui)
 
   add_subdirectory(${path_to_boilerplate}/common)
+
+  add_definitions(-DIMGUI_IMPL_METAL_CPP)
 
   configure_file(
     "${path_to_boilerplate}/boilerplate_config.hpp.in"
