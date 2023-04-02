@@ -22,6 +22,8 @@
 #include <iostream>
 #include <vector>
 
+#include "glm_math.hpp"
+
 // RAII for releasing metal-cpp objects.
 template <class T>
 class metal_guard {
