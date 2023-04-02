@@ -14,10 +14,10 @@
 
 #pragma once
 
-#include "common/app.hpp"
-
 #include <cstdint>
 #include <string>
+
+#include "common/app.hpp"
 
 class Renderer : public App {
 public:

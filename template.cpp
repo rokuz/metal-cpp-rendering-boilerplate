@@ -12,11 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "renderer.hpp"
-
 #include <chrono>
 
 #include "common/utils.hpp"
+#include "renderer.hpp"
 
 App * getApp() {
   static Renderer app;
